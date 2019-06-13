@@ -33,6 +33,8 @@ WORKDIR /
 ARG OPENCV_VERSION=4.1.0
 RUN wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip \
 && unzip ${OPENCV_VERSION}.zip \
+&& wget https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip -O ${OPENCV_VERSION}-contrib.zip \
+&& unzip ${OPENCV_VERSION}-contrib.zip \
 && mkdir /opencv-${OPENCV_VERSION}/cmake_binary \
 && cd /opencv-${OPENCV_VERSION}/cmake_binary \
 && cmake -DBUILD_TIFF=ON \
@@ -53,6 +55,7 @@ RUN wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip \
   -DPYTHON_INCLUDE_DIR=$(python3.7 -c "from distutils.sysconfig import get_python_inc; print(get_python_inc())") \
   -DPYTHON_PACKAGES_PATH=$(python3.7 -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())") \
   -DBUILD_EXAMPLES=ON \
+  -DOPENCV_EXTRA_MODULES_PATH=/opencv_contrib-${OPENCV_VERSION}/modules \
   .. \
 && make -j$(nproc) install
 
