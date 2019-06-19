@@ -2,7 +2,6 @@ FROM python:3.7
 MAINTAINER Kyle Hounslow <kyle.hounslow@gmail.com>
 
 RUN apt-get update 
-RUN apt-get install -y 
 RUN apt-get install -y build-essential 
 RUN apt-get install -y cmake 
 RUN apt-get install -y wget 
@@ -60,9 +59,7 @@ RUN wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip \
 && make -j$(nproc) install
 
 RUN rm /${OPENCV_VERSION}.zip
-#RUN rm -r /opencv-${OPENCV_VERSION}
 RUN rm /${OPENCV_VERSION}-contrib.zip
-#RUN rm -r /opencv_contrib-${OPENCV_VERSION}
 RUN ln -s \
   /usr/local/python/cv2/python-3.7/cv2.cpython-37m-x86_64-linux-gnu.so \
   /usr/local/lib/python3.7/site-packages/cv2.so
